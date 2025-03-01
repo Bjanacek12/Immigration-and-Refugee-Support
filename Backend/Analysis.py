@@ -3,6 +3,7 @@ import time
 import os
 import json
 from dotenv import load_dotenv, set_key
+from TextSpeech import Text_Speech
 
 # Load environment variables from .env
 load_dotenv()
@@ -58,7 +59,8 @@ def legalgpt(query, new_conversation=False):
 
     with open("output.json", "w") as json_file:
         json.dump(output_data, json_file)
-
+        
+    Text_Speech(output_data["response"])
     return assistant_reply
 
 
