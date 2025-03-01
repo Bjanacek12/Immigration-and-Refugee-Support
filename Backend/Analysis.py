@@ -3,7 +3,7 @@ from TextSpeech import Text_Speech
 from openai import OpenAI
 
 
-def analyze():
+def analyze(SpeechText):
     client = OpenAI()
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -11,10 +11,11 @@ def analyze():
             {"role": "developer", "content": "You are a helpful assistant."},
             {
                 "role": "user",
-                "content": "Write a haiku about recursion in programming."
+                "content": SpeechText
             }
         ]
     )
 
     print(completion.choices[0].message)
+    Text_Speech(completion.choices[0].message)
 
