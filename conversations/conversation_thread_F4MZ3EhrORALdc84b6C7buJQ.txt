@@ -16,3 +16,7 @@ Assistant: To bring your grandmother to the U.S. as a permanent resident, you'll
 
 Each case can be unique, so it's important to explore all possible options thoroughly.
 ----------------------------------------
+
+User: Hello
+Assistant: Hello again! How can I help you today with your immigration or legal questions?
+----------------------------------------
