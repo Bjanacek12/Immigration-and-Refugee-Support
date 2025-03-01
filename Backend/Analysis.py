@@ -15,7 +15,7 @@ openai.api_key = API_KEY
 
 def legalgpt(query, new_conversation=False):
     global THREAD_ID
-    
+
     if new_conversation or not THREAD_ID:
         thread = openai.beta.threads.create()
         THREAD_ID = thread.id
@@ -60,9 +60,3 @@ def legalgpt(query, new_conversation=False):
         json.dump(output_data, json_file)
 
     return assistant_reply
-
-
-
-query = input("You: ")
-response = legalgpt(query, new_conversation=False)  
-print("Assistant:", response)
