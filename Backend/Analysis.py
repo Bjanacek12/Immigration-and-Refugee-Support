@@ -1,64 +1,68 @@
 import openai
 import time
 import os
-from dotenv import load_dotenv
+import json
+from dotenv import load_dotenv, set_key
 
+# Load environment variables from .env
 load_dotenv()
-
 API_KEY = os.getenv("OPENAI_API_KEY")
 ASSISTANT_ID = os.getenv("ASSISTANT_ID")
+THREAD_ID = os.getenv("THREAD_ID")  
+
 openai.api_key = API_KEY
-THREAD_FILE = "thread.txt"
 
-def chat_with_legalgpt(query, new_conversation=False):
 
-    # If new conversation is requested, remove old thread ID
-    if new_conversation and os.path.exists(THREAD_FILE):
-        os.remove(THREAD_FILE)
-
-    # Load existing thread ID or create a new one
-    thread_id = None
-    if os.path.exists(THREAD_FILE):
-        with open(THREAD_FILE, "r") as file:
-            thread_id = file.read().strip()
-
-    if not thread_id:
+def legalgpt(query, new_conversation=False):
+    global THREAD_ID
+    
+    if new_conversation or not THREAD_ID:
         thread = openai.beta.threads.create()
-        thread_id = thread.id
-        with open(THREAD_FILE, "w") as file:
-            file.write(thread_id)
+        THREAD_ID = thread.id
+        set_key(".env", "THREAD_ID", THREAD_ID) 
 
-    # Set unique filename based on thread ID
-    conversation_log = f"conversation_{thread_id}.txt"
+    
+
+    # Set unique filename based on thread ID inside the conversations folder
+    conversation_log = os.path.join("conversations", f"conversation_{THREAD_ID}.txt")
 
     # Send query to assistant
     openai.beta.threads.messages.create(
-        thread_id=thread_id,
+        thread_id=THREAD_ID,
         role="user",
         content=query
     )
 
     # Run assistant and wait for response
     run = openai.beta.threads.runs.create(
-        thread_id=thread_id,
+        thread_id=THREAD_ID,
         assistant_id=ASSISTANT_ID
     )
 
     while run.status in ["queued", "in_progress"]:
-        time.sleep(1)
-        run = openai.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run.id)
+        run = openai.beta.threads.runs.retrieve(thread_id=THREAD_ID, run_id=run.id)
 
-    # Retrieve assistant response
-    messages = openai.beta.threads.messages.list(thread_id=thread_id)
+    messages = openai.beta.threads.messages.list(thread_id=THREAD_ID)
     assistant_reply = messages.data[0].content[0].text.value
 
-    # Save query and response to a thread-specific file
+    # Save query and response to a thread-specific file in the conversations folder
     with open(conversation_log, "a") as log_file:
-        log_file.write(f"\nUser: {query}\nAssistant: {assistant_reply}\n{'-'*40}\n")
+        log_file.write("\nUser: " + query + "\nAssistant: " + assistant_reply + "\n" + "-" * 40 + "\n")
+
+    # Save the most recent query and output to output.json
+    output_data = {
+        "thread_id": THREAD_ID,
+        "query": query,
+        "response": assistant_reply
+    }
+
+    with open("output.json", "w") as json_file:
+        json.dump(output_data, json_file)
 
     return assistant_reply
 
-# Example Usage
+
+
 query = input("You: ")
-response = chat_with_legalgpt(query, new_conversation=False)  # Set to True for a new chat
+response = legalgpt(query, new_conversation=False)  
 print("Assistant:", response)
