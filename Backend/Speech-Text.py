@@ -6,5 +6,5 @@ transcription = client.audio.translations.create(
     model="whisper-1", 
     file=audio_file,
 )
-
+path = ""
 print(transcription.text)
