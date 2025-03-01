@@ -1,11 +1,9 @@
 import os
 from Analysis import legalgpt
-
 from openai import OpenAI
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def First(AudioPath):
+def speech_text(AudioPath):
     audio_file_path = AudioPath
     audio_file = open(audio_file_path, "rb")
     transcription = client.audio.transcriptions.create(
@@ -26,3 +24,5 @@ def First(AudioPath):
     print(transcribed_text)
 
     legalgpt(transcribed_text)
+
+speech_text("./Audio_Input/Test1.m4a")
