@@ -57,6 +57,9 @@ def process_audio():
 #getting audio legal advice
 @app.route("/download-audio", methods=["GET"])
 def download_audio():
+    if not os.path.exists("Audio_Output"):
+        os.makedirs("Audio_Output")
+
     output_audio_path = os.path.join("Audio_Output", "response.mp3")
     #if audio file path exists then sending it or else giving error msg
     if os.path.exists(output_audio_path):

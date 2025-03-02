@@ -4,13 +4,12 @@ from openai import OpenAI
 
 client = OpenAI()
 
-OUTPUT_FOLDER = Path(__file__).parent / "Audio_Output"
 
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-
-speech_file_path = OUTPUT_FOLDER / "response.mp3"
+if not os.path.exists("Audio_Output"):
+    os.makedirs("Audio_Output")
 
 def text_speech(FinalOut):
+    speech_file_path = "Audio_Output/response.mp3"
     response = client.audio.speech.create(
         model="tts-1",
         voice="alloy",
