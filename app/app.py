@@ -4,13 +4,14 @@ import shutil
 from app.Analysis import legalgpt
 from app.Speech_Text import speech_text
 from app.Text_Speech import text_speech
-
+from flask_cors import CORS 
 
 
 
 app = Flask(__name__)
 
 new_conversation=False
+CORS(app)
 
 UPLOAD_FOLDER = "Audio_Input"
 OUTPUT_FOLDER = "Audio_Output"
