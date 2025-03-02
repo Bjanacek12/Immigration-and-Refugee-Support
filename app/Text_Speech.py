@@ -1,8 +1,14 @@
+import os
 from pathlib import Path
 from openai import OpenAI
 
 client = OpenAI()
-speech_file_path = "/Users/antonytomy/Desktop/Immigration-and-Refugee-Support/Audio_Output/response.mp3"
+
+OUTPUT_FOLDER = Path(__file__).parent / "Audio_Output"
+
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
+speech_file_path = OUTPUT_FOLDER / "response.mp3"
 
 def text_speech(FinalOut):
     response = client.audio.speech.create(
