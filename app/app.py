@@ -4,6 +4,7 @@ import shutil
 from app.Analysis import legalgpt
 from app.Speech_Text import speech_text
 from app.Text_Speech import text_speech
+from headerText import header
 from flask_cors import CORS 
 
 
@@ -41,17 +42,21 @@ def process_audio():
 
     # getting custom gpt response()
     gpt_response = legalgpt(speech_text_result, new_conversation)
-
+    header_result = header(speech_text_result)
+    title = header_result["title"]
+    language = header_result["language"]
     #staying in same convo
     new_conversation=False
 
     # converting response from gpt to speech
     text_speech(gpt_response)
 
-    # returning query and output from AI model
+    # returning query and output with title and language as well from AI model
     return jsonify({
         "query_text": speech_text_result,
         "gpt_response": gpt_response,
+        "title": title,
+        "language": language
     })
 
 #getting audio legal advice
