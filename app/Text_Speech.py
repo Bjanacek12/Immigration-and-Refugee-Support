@@ -21,4 +21,4 @@ def text_speech(FinalOut):
         input=FinalOut,
     )
 
-    response.write_to_file(speech_file_path)
+    response.write_to_file(output_audio_path)
