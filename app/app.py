@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, send_file
 import os
 import shutil
-from app.Analysis import legalgpt
-from app.Speech_Text import speech_text
-from app.Text_Speech import text_speech
+from Analysis import legalgpt
+from Speech_Text import speech_text
+from Text_Speech import text_speech
+
 
 
 app = Flask(__name__)
