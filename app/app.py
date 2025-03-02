@@ -12,6 +12,8 @@ app = Flask(__name__)
 
 new_conversation=False
 
+UPLOAD_FOLDER = "Audio_Input"
+OUTPUT_FOLDER = "Audio_Output"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
