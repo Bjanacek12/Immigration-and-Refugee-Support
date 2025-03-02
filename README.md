@@ -1,11 +1,13 @@
-# Immigration-and-Refugee-Support
+# Name
 
-### The POST /process-audio/ route allows users to upload an audio file, which is converted to text, processed by LegalGPT for a response, and then converted back into speech. The API returns the transcribed text and the GPT-generated response.
+![logo](logo.png)
 
-### The GET /download-audio route provides the processed audio response from the /process-audio/ post request as an MP3 file 
+The POST /process-audio/ route allows users to upload an audio file, which is converted to text, processed by LegalGPT for a response, and then converted back into speech. The API returns the transcribed text and the GPT-generated response.
 
-### #The POST /set-new-conversation route resets the conversation(refresh button) so that the next /process-audio/ request starts a new conversation 
+The GET /download-audio route provides the processed audio response from the /process-audio/ post request as an MP3 file 
 
-### The GET / route checks if the API is running and returns a simple status message indicating that the server is active.
+#The POST /set-new-conversation route resets the conversation(refresh button) so that the next /process-audio/ request starts a new conversation 
 
-### API LINK: https://immigration-and-refugee-support.onrender.com
+The GET / route checks if the API is running and returns a simple status message indicating that the server is active.
+
+API LINK: https://immigration-and-refugee-support.onrender.com

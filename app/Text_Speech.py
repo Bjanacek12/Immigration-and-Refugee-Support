@@ -4,9 +4,6 @@ from openai import OpenAI
 
 client = OpenAI()
 
-
-
-
 def text_speech(FinalOut):
 
     output_audio_dir = os.path.join(os.getcwd(), "app", "Audio_Output")

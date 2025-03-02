@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_file
 import os
 import shutil
-from app.Analysis import legalgpt
+from Analysis import legalgpt
 from app.Speech_Text import speech_text
 from app.Text_Speech import text_speech
 from app.headerText import header
@@ -81,9 +81,10 @@ def set_new_conversation():
 def root():
     return jsonify({"message": "LegalGPT is running..."})
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))  # Default to 8080
-    app.run(host="0.0.0.0", port=port)
+if __name__ != "__main__":
+    gunicorn_app = app
+
+
 
 
 
