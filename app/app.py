@@ -57,16 +57,13 @@ def process_audio():
 #getting audio legal advice
 @app.route("/download-audio", methods=["GET"])
 def download_audio():
-    if not os.path.exists("Audio_Output"):
-        os.makedirs("Audio_Output")
-
     output_audio_path = os.path.join("Audio_Output", "response.mp3")
     #if audio file path exists then sending it or else giving error msg
     if os.path.exists(output_audio_path):
         return send_file(output_audio_path, mimetype="audio/mpeg", as_attachment=True, download_name="response.mp3")
     else:
         return jsonify({"error": "audio file not found"}), 404
-
+ 
 #starting new conversation with model
 @app.route("/set-new-conversation", methods=["POST"])
 def set_new_conversation():
