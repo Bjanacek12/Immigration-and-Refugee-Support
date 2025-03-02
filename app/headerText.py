@@ -20,7 +20,7 @@ def header(text):
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Give me a short header title for this context: {text}"}
+                {"role": "user", "content": f"Give me a very short header title for this context: {text}"}
             ]
         )
         header_title = title_generation.choices[0].message.content.strip()
