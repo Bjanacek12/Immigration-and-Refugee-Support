@@ -12,6 +12,9 @@ app = Flask(__name__)
 
 new_conversation=False
 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
 #processing input audio and getting legal advice as text and audio
 @app.route("/process-audio/", methods=["POST"])
 def process_audio():    
