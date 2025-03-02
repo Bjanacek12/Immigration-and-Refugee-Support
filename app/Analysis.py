@@ -5,7 +5,7 @@ import json
 from dotenv import load_dotenv, set_key
 
 
-# Load environment variables from .env
+# load environment variables from .env
 load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
 ASSISTANT_ID = os.getenv("ASSISTANT_ID")
@@ -17,6 +17,7 @@ openai.api_key = API_KEY
 def legalgpt(query, new_conversation=False):
     global THREAD_ID
     
+    # getting new thread if for new convo
     if new_conversation or not THREAD_ID:
         thread = openai.beta.threads.create()
         THREAD_ID = thread.id
@@ -24,10 +25,10 @@ def legalgpt(query, new_conversation=False):
 
     
 
-    # Set unique filename based on thread ID inside the conversations folder
+    # getting file path for conversation.txt file
     conversation_log = os.path.join("conversations", f"conversation_{THREAD_ID}.txt")
 
-    # Send query to assistant
+    # Sending query
     openai.beta.threads.messages.create(
         thread_id=THREAD_ID,
         role="user",
@@ -40,27 +41,27 @@ def legalgpt(query, new_conversation=False):
         assistant_id=ASSISTANT_ID
     )
 
+    #getting response from custom GPT fine tuned model from OPENAI(code from documentation)
     while run.status in ["queued", "in_progress"]:
         run = openai.beta.threads.runs.retrieve(thread_id=THREAD_ID, run_id=run.id)
 
     messages = openai.beta.threads.messages.list(thread_id=THREAD_ID)
     assistant_reply = messages.data[0].content[0].text.value
 
-    # Save query and response to a thread-specific file in the conversations folder
+
+    # Saving convo to proper thread
     with open(conversation_log, "a") as log_file:
         log_file.write("\nUser: " + query + "\nAssistant: " + assistant_reply + "\n" + "-" * 40 + "\n")
 
-    # Save the most recent query and output to output.json
+    # save the most recent query and response and output to output.json
     output_data = {
         "thread_id": THREAD_ID,
         "query": query,
         "response": assistant_reply
     }
-
     with open("output.json", "w") as json_file:
         json.dump(output_data, json_file)
         
-    Text_Speech(output_data["response"])
     return assistant_reply
 
 
