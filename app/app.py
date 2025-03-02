@@ -57,7 +57,7 @@ def process_audio():
 #getting audio legal advice
 @app.route("/download-audio", methods=["GET"])
 def download_audio():
-    output_audio_path = os.path.join("Audio_Output", "response.mp3")
+    output_audio_path = os.path.join(os.getcwd(), "app", "Audio_Output", "response.mp3")
     #if audio file path exists then sending it or else giving error msg
     if os.path.exists(output_audio_path):
         return send_file(output_audio_path, mimetype="audio/mpeg", as_attachment=True, download_name="response.mp3")
